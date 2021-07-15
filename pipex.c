@@ -11,6 +11,23 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*p;
+	int		i;
+	int		j;
+
+	i = strlen((char *)s1);
+	j = strlen((char *)s2);
+	p = malloc(i + j + 2);
+	if (!(p))
+		return (0);
+	strcpy(p, (char *)s1);
+	strcpy(&p[i], "/");
+	strcpy(&p[i + 1], (char *)s2);
+	return (p);
+}
+
 size_t  ft_strlen(const char  *str)
 {
     int i = 0;
@@ -125,24 +142,26 @@ char	**ft_split(char const *s, char c)
 	return (p);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+int	set_output(char *p)
 {
-	char	*p;
-	int		i;
-	int		j;
-
-	i = strlen((char *)s1);
-	j = strlen((char *)s2);
-	p = malloc(i + j + 2);
-	if (!(p))
-		return (0);
-	strcpy(p, (char *)s1);
-	strcpy(&p[i], "/");
-	strcpy(&p[i + 1], (char *)s2);
-	return (p);
+	int	fd;
+	fd = open(p, O_WRONLY | O_CREAT | O_TRUNC , 0777);
+	dup2(fd, 1);
+	close(fd);
+	return (0);
 }
 
-char	*ft_getabspath(char **path, char **tmp)
+int	set_input(char *s)
+{
+	int	fd;
+
+	fd = open(s, O_RDONLY);
+	dup2(fd, 0);
+	close(fd);
+	return (0);
+}
+
+char	*ft_getabsolutepath(char **path, char **tmp)
 {
 	int		i;
 	char	*cmd;
@@ -169,87 +188,68 @@ char	*ft_getpath(char **env, char *cmd)
 	char	**path;
 	int		i;
 
-	i = -1;
 	tmp = ft_split(cmd, ' ');
+	i = -1;
 	while (env[++i])
-		if (!strncmp(env[i], "PATH", 4))
+		if (!(strncmp(env[i], "PATH", 4)))
 			cmd = *(env + i) + 5;
 	path = ft_split(cmd, ':');
 	if (!tmp[0])
 		return (NULL);
-	cmd = ft_getabspath(path, tmp);
+	cmd = ft_getabsolutepath(path, tmp);
 	return (cmd);
 }
 
-
-
-int     function(char   *s)
+void	executecmd(char *str, char **env)
 {
-    int     fd;
-    fd = open(s, O_RDONLY);
-    dup2(fd, 0);
-    close(fd);
-    return (0);
-}
-
-int     function2(char  *p)
-{
-    int fd;
-
-    fd = open(p, O_WRONLY | O_CREAT | O_TRUNC , 0777);
-    dup2(fd, 1);
-    close(fd);
-    return (0);
-}
-
-void        executecmd(char *str, char  **env)
-{
-    char    **p;
-    char	*cmd;
+	char	**p;
+	char	*cmd;
 
 	cmd = ft_getpath(env, str);
-    p = ft_split(str, ' ');
+	p = ft_split(str, ' ');
 
-    execve(cmd, p, env);
+	execve(cmd, p, env);
 }
 
-int     pipefunc(char   **argv, char    **env)
+int	pipefunc(char **argv, char **env)
 {
-    pid_t   pid1;
-    int fd[2];
-    int     i;
-    pid_t   pid2;
+	pid_t	pid1;
+	pid_t	pid2;
+	int		fd[2];
+	int		i;
 
-    pid1 = fork();
-    if (pid1 == 0)
-    {
-        pipe(fd);
-        pid2 = fork();
-        if (pid2 == 0)
-        {
-            dup2(fd[1], 1);
+	pid1 = fork();
+	if (pid1 == 0)
+	{
+		pipe(fd);
+		pid2 = fork();
+		if (pid2 == 0)
+		{
+			dup2(fd[1], 1);
 			close(fd[0]);
-            executecmd(argv[0], env);
-            exit(-1);
-        }
-        else
-        {
-            dup2(fd[0], 0);
+			close(fd[1]);
+			executecmd(argv[0], env);
+		}
+		else
+		{
+			dup2(fd[0], 0);
 			close(fd[1]);
 			close(fd[0]);
-            executecmd(argv[1], env);
-            exit(-1);
-        }
-    }
-    else
-        waitpid(pid1, &i, 0);
-    return (0);
+			executecmd(argv[1], env);
+		}
+	}
+	else
+		waitpid(pid1, &i, 0);
+	return 0;
 }
-int     main(int    argc, char  **argv, char    **env)
-{
-    function(argv[1]);
-    function2(argv[4]);
 
-    pipefunc(&argv[2], env);
+int	main(int argc, char **argv, char **env)
+{
+	if (argc == 5)
+	{
+		set_input(argv[1]);
+		set_output(argv[4]);
+		pipefunc(&argv[2], env);
+	}
 	return 0;
 }
