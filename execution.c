@@ -6,24 +6,11 @@
 /*   By: mamali <mamali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:30:01 by mamali            #+#    #+#             */
-/*   Updated: 2021/07/16 13:45:37 by mamali           ###   ########.fr       */
+/*   Updated: 2021/07/16 16:41:20 by mamali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	free_dpointer(char **tokens)
-{
-	int		i;
-
-	i = 0;
-	while (tokens[i])
-	{
-		free(tokens[i]);
-		i++;
-	}
-	free(tokens);
-}
 
 char	*ft_getabsolutepath(char **path, char **tmp)
 {
@@ -79,14 +66,30 @@ void	executecmd(char *cmd, char **env)
 	log_error("Error : command not found", 127);
 }
 
-int	pipe_execution(char **argv, char **env)
+void	piipe(int *fd, char *s, char **env, int i)
+{
+	if (i == 1)
+	{
+		close(fd[0]);
+		dup2(fd[1], 1);
+		close(fd[1]);
+		executecmd(s, env);
+	}
+	else
+	{
+		close(fd[1]);
+		dup2(fd[0], 0);
+		close(fd[0]);
+		executecmd(s, env);
+	}
+}
+
+int	pipe_execution(char **argv, char **env, int i)
 {
 	pid_t	pid1;
 	pid_t	pid2;
 	int		fd[2];
-	int		i;
 
-	i = 0;
 	pid1 = fork();
 	if (pid1 == -1)
 		log_error("Error: An error occured with the fork", 1);
@@ -98,23 +101,13 @@ int	pipe_execution(char **argv, char **env)
 		if (pid2 == -1)
 			log_error("Error: An error occured with the fork", 1);
 		if (pid2 == 0)
-		{
-			close(fd[0]);
-			dup2(fd[1], 1);
-			close(fd[1]);
-			executecmd(argv[0], env);
-		}
+			piipe(fd, argv[0], env, 1);
 		else
-		{
-			close(fd[1]);
-			dup2(fd[0], 0);
-			close(fd[0]);
-			executecmd(argv[1], env);
-		}
+			piipe(fd, argv[1], env, 0);
 	}
 	else
 		waitpid(pid1, &i, 0);
 	if (i == 0)
-		return 0;
+		return (0);
 	return (127);
 }

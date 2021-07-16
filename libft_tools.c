@@ -6,18 +6,20 @@
 /*   By: mamali <mamali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:32:45 by mamali            #+#    #+#             */
-/*   Updated: 2021/07/16 13:39:32 by mamali           ###   ########.fr       */
+/*   Updated: 2021/07/16 16:32:51 by mamali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-size_t  ft_strlen(const char  *str)
+size_t	ft_strlen(const char *str)
 {
-    int i = 0;
-    while (str[i])
-        i++;
-    return (i);
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
 
 static	size_t	ft_countw(char *s, char c)
