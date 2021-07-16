@@ -4,7 +4,10 @@ compile = gcc
 FLAGS = -Wall -Wextra -Werror
 NAME = pipex
 
-SRC = pipex.c
+SRC = pipex.c\
+	  libft_tools.c\
+	  libft_tools2.c\
+	  execution.c
 
 all: $(NAME)
 
