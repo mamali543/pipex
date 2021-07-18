@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.c                                        :+:      :+:    :+:   */
+/*   bonus_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamali <mamali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/16 13:30:01 by mamali            #+#    #+#             */
-/*   Updated: 2021/07/18 18:33:30 by mamali           ###   ########.fr       */
+/*   Created: 2021/07/18 19:03:35 by mamali            #+#    #+#             */
+/*   Updated: 2021/07/18 19:04:43 by mamali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,48 +64,22 @@ void	executecmd(char *cmd, char **env)
 	log_error("Error : command not found", 127);
 }
 
-void	piipe(int *fd, char *s, char **env, int i)
+void	free_dpointer(char **tokens)
 {
-	if (i == 1)
+	int		i;
+
+	i = 0;
+	while (tokens[i])
 	{
-		close(fd[0]);
-		dup2(fd[1], 1);
-		close(fd[1]);
-		executecmd(s, env);
+		free(tokens[i]);
+		i++;
 	}
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], 0);
-		close(fd[0]);
-		executecmd(s, env);
-	}
+	free(tokens);
 }
 
-int	pipe_execution(char **argv, char **env, int i)
+void	log_error(char *str, int i)
 {
-	pid_t	pid1;
-	pid_t	pid2;
-	int		fd[2];
-
-	pid1 = fork();
-	if (pid1 == -1)
-		log_error("Error: An error occured with the fork", 1);
-	if (pid1 == 0)
-	{
-		if (pipe(fd) == -1)
-			log_error("Error: An error occured with opening the pipe", 1);
-		pid2 = fork();
-		if (pid2 == -1)
-			log_error("Error: An error occured with the fork", 1);
-		if (pid2 == 0)
-			piipe(fd, argv[0], env, 1);
-		else
-			piipe(fd, argv[1], env, 0);
-	}
-	else
-		waitpid(pid1, &i, 0);
-	if (i == 0)
-		return (0);
-	return (127);
+	write(2, str, ft_strlen(str));
+	write(2, "\n", 1);
+	exit(i);
 }
