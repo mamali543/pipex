@@ -6,7 +6,7 @@
 /*   By: mamali <mamali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/03 17:35:16 by mamali            #+#    #+#             */
-/*   Updated: 2021/07/18 18:55:44 by mamali           ###   ########.fr       */
+/*   Updated: 2021/07/18 20:47:42 by mamali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	help3(char *buff, char **line)
 	char	*tmp;
 
 	tmp = *line;
-	*line = ft_strjoin(tmp, buff);
+	*line = mystrjoin(tmp, buff);
 	free(tmp);
 }
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bonus_tools2.c                                     :+:      :+:    :+:   */
+/*   tools2_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamali <mamali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 19:05:20 by mamali            #+#    #+#             */
-/*   Updated: 2021/07/18 19:06:18 by mamali           ###   ########.fr       */
+/*   Updated: 2021/07/18 20:47:11 by mamali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,28 @@ void	*ft_calloc(size_t count, size_t size)
 		return (0);
 	while (i--)
 		p[i] = 0;
+	return (p);
+}
+
+char	*mystrjoin(char const *s1, char const *s2)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	*p;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	if (!s1 || !s2)
+		return (NULL);
+	p = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (p == 0)
+		return (NULL);
+	while (s1[i])
+		p[k++] = s1[i++];
+	while (s2[j])
+		p[k++] = s2[j++];
+	p[k] = '\0';
 	return (p);
 }

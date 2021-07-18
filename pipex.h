@@ -28,7 +28,9 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_getfd1(char *str);
 int		ft_getfd2(char *str);
-int		mltpipeexec(char **argv, int i, char **env, int j);
 int		ret(char **str);
+int     ft_getfd3(char *str);
+int	    execmlpipe(char **argv1, int i, char **env);
+char	*mystrjoin(char const *s1, char const *s2);
 
 #endif

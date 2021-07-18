@@ -1,52 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executionb.c                                       :+:      :+:    :+:   */
+/*   execution_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aez-zaou <aez-zaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamali <mamali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 17:33:49 by mamali            #+#    #+#             */
-/*   Updated: 2021/07/18 20:03:48 by aez-zaou         ###   ########.fr       */
+/*   Updated: 2021/07/18 20:43:41 by mamali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	execdup(int i, int *fd, int j, int tfd)
+void	execdup(int	i, int *fds, int x, int fd)
 {
-	if (j != 0)
+	if (x != 0)
 	{
-		dup2(tfd, 0);
-		close(tfd);
+		dup2(fd, 0);
+		close(fd);
 	}
-	if (i - 1 != j)
-		dup2(fd[1], 1);
-	close (fd[0]);
+	if (i - 1 != x)
+		dup2(fds[1], 1);
+	close(fds[0]);
 }
 
-int	mltpipeexec(char **argv, int i, char **env, int j)
+int	execmlpipe(char **argv1, int i, char **env)
 {
-	int		fd[2];
-	pid_t	pid1;
-	int		tfd;
+	int		fds[2];
+	pid_t	pid;
+	int		x;
+	int		fd;
 
-	while (++j < i)
+	x = -1;
+	while (++x < i)
 	{
-		if (pipe(fd) == -1)
-			log_error("Error: An error occured with opening the pipe", 1);
-		pid1 = fork();
-		if (pid1 == -1)
-			log_error("Error: An error occured with the fork", 1);
-		if (pid1 == 0)
+		pipe(fds);
+		pid = fork();
+		if (pid == -1)
+			log_error("error : fork failed", 1);
+		if (pid == 0)
 		{
-			execdup(i, fd, j, tfd);
-			executecmd(argv[j], env);
+			execdup(i, fds, x, fd);
+			executecmd(argv1[x], env);
 		}
 		else
 		{
 			wait(NULL);
-			close(fd[1]);
-			tfd = fd[0];
+			close(fds[1]);
+			fd = fds[0];
 		}
 	}
 	return (0);
@@ -71,6 +72,18 @@ int	ft_getfd2(char *str)
 	fd = open(str, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (fd == -1)
 		return (9);
+	dup2(fd, 1);
+	close(fd);
+	return (1);
+}
+
+int	ft_getfd3(char *str)
+{
+	int	fd;
+
+	fd = open(str, O_RDWR | O_CREAT | O_APPEND, 0666);
+	if (fd == -1)
+		return (0);
 	dup2(fd, 1);
 	close(fd);
 	return (1);
