@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipexb.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamali <mamali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aez-zaou <aez-zaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 17:33:11 by mamali            #+#    #+#             */
-/*   Updated: 2021/07/18 19:07:47 by mamali           ###   ########.fr       */
+/*   Updated: 2021/07/18 20:04:07 by aez-zaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	ft_getfd4(char *str)
 	int		x;
 
 	x = 1;
-    if (pipe(fd) == -1)
-        log_error("Error: An error occured with opening the pipe", 1);
+	if (pipe(fd) == -1)
+		log_error("Error: An error occured with opening the pipe", 1);
 	while (x)
 	{
 		get_next_line(0, &line);
@@ -75,12 +75,12 @@ int	main(int argc, char **argv, char **env)
 	if (!ft_strcmp(argv[1], "here_doc"))
 	{
 		ft_pars(argv, 2, argc - 1, 1);
-		return (mltpipeexec(&argv[3], argc - 4, env));
+		return (mltpipeexec(&argv[3], argc - 4, env, -1));
 	}
 	else if (argc >= 5)
 	{
 		ft_pars(argv, 1, argc - 1, 0);
-		return (mltpipeexec(&argv[2], argc - 3, env));
+		return (mltpipeexec(&argv[2], argc - 3, env, -1));
 	}
 	return (0);
 }

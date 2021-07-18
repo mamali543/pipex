@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   libft_tools2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamali <mamali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aez-zaou <aez-zaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:34:39 by mamali            #+#    #+#             */
-/*   Updated: 2021/07/18 19:01:10 by mamali           ###   ########.fr       */
+/*   Updated: 2021/07/18 20:01:04 by aez-zaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int		ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	unsigned char	*p;
 	unsigned char	*o;
@@ -32,7 +32,7 @@ int		ft_strcmp(const char *s1, const char *s2)
 	return (0);
 }
 
-int		ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t			i;
 	unsigned char	*p;

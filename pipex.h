@@ -26,9 +26,9 @@ void	free_dpointer(char **tokens);
 void	executecmd(char *cmd, char **env);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strcmp(const char *s1, const char *s2);
-int	    ft_getfd1(char *str);
-int	    ft_getfd2(char *str);
-int     mltpipeexec(char    **argv, int     i, char     **env);
-int	    ret(char **str);
+int		ft_getfd1(char *str);
+int		ft_getfd2(char *str);
+int		mltpipeexec(char **argv, int i, char **env, int j);
+int		ret(char **str);
 
 #endif
