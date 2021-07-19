@@ -3,7 +3,6 @@ MakeDir = make
 compile = gcc
 FLAGS = -Wall -Wextra -Werror
 NAME = pipex
-NAMEB = pipexb
 
 SRC = pipex.c\
 	  libft_tools.c\
@@ -23,12 +22,10 @@ all: $(NAME)
 $(NAME): $(SRC)
 	@$(compile) $(SRC) $(FLAGS) -o $(NAME)
 
-bonus: $(NAMEB)
-
-$(NAMEB): $(SRCB)
-	@$(compile) $(SRCB) $(FLAGS) -o $(NAMEB)
+bonus: fclean
+	@$(compile) $(SRCB) $(FLAGS) -o $(NAME)
 
 fclean:
-	@rm -rf $(NAME) $(NAMEB)
+	@rm -rf $(NAME)
 
 re: fclean all
