@@ -6,7 +6,7 @@
 /*   By: mamali <mamali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/03 17:35:16 by mamali            #+#    #+#             */
-/*   Updated: 2021/07/18 20:47:42 by mamali           ###   ########.fr       */
+/*   Updated: 2021/07/19 16:21:37 by mamali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static char	*ft_strcpy(char *dest, char *src)
 	dest[i] = '\0';
 	return (dest);
 }
+
 
 static char	*help(char *save, char **line)
 {

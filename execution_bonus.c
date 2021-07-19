@@ -6,7 +6,7 @@
 /*   By: mamali <mamali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 17:33:49 by mamali            #+#    #+#             */
-/*   Updated: 2021/07/18 20:43:41 by mamali           ###   ########.fr       */
+/*   Updated: 2021/07/19 16:21:47 by mamali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	execdup(int	i, int *fds, int x, int fd)
 		dup2(fds[1], 1);
 	close(fds[0]);
 }
+
 
 int	execmlpipe(char **argv1, int i, char **env)
 {

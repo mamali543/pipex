@@ -6,11 +6,12 @@
 /*   By: mamali <mamali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:30:01 by mamali            #+#    #+#             */
-/*   Updated: 2021/07/18 18:33:30 by mamali           ###   ########.fr       */
+/*   Updated: 2021/07/19 16:21:44 by mamali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
 
 char	*ft_getabsolutepath(char **path, char **tmp)
 {
